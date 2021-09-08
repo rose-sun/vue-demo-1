@@ -1,26 +1,62 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div>n的值是{{ n }}</div>
+    <div class="row">
+      <Cell @click="onCellClick(0, $event)" :n="n" />
+      <Cell @click="onCellClick(1, $event)" :n="n" />
+      <Cell @click="onCellClick(2, $event)" :n="n" />
+    </div>
+    <div class="row">
+      <Cell @click="onCellClick(3, $event)" :n="n" />
+      <Cell @click="onCellClick(4, $event)" :n="n" />
+      <Cell @click="onCellClick(5, $event)" :n="n" />
+    </div>
+    <div class="row">
+      <Cell @click="onCellClick(6, $event)" :n="n" />
+      <Cell @click="onCellClick(7, $event)" :n="n" />
+      <Cell @click="onCellClick(8, $event)" :n="n" />
+    </div>
+    <div>{{map}}</div>
+    <div>{{result}}</div>
+  </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Cell from "./Cell";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  components: { Cell },
+  data() {
+    return {
+      n: 0,
+      map: [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null],
+      ],
+      result: false
+    };
+  },
+  methods: {
+    onCellClick(i, text) {
+      console.log(`${i}号被点击，内容是:${text}`);
+      this.map[Math.floor(i/3)][i%3] = text
+      this.n += 1;
+      this.tell();
+    },
+
+    tell(){
+      const map = this.map
+      for(let i=0; i<3;i++){
+      if(map[i][0] !== null && map[i][0] == map[i][1] && map[i][1] == map[i][2]){   //一行相同且不为空，赢了
+        this.result = true;
+      }
+      }
+    }
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.row {
+  display: flex;
 }
 </style>
